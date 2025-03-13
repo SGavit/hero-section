@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Section</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .features {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d3436;
+        }
+
+        .section-header p {
+            color: #636e72;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #6c5ce7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: #a8a4e6;
+        }
+
+        .feature-content h3 {
+            margin-bottom: 1rem;
+            color: #2d3436;
+        }
+
+        .feature-content p {
+            color: #636e72;
+            line-height: 1.6;
+        }
+
+        .feature-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: #6c5ce7;
+            text-decoration: none;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-link {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .features {
+                padding: 3rem 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animation */
+        .feature-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Amazing Features</h2>
+                <p>Discover the powerful features that make our product stand out from the competition</p>
+            </div>
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Lightning Fast Performance</h3>
+                        <p>Experience blazing fast speeds with our optimized architecture and cutting-edge technology.</p>
+                        <a href="#" class="feature-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Military-Grade Security</h3>
+                        <p>Your data is protected with enterprise-level security measures and encryption protocols.</p>
+                        <a href="#" class="feature-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Intuitive Interface</h3>
+                        <p>User-friendly design that makes navigation and operation simple for everyone.</p>
+                        <a href="#" class="feature-link">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Scroll animation for feature cards
+        const featureCards = document.querySelectorAll('.feature-card');
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        featureCards.forEach(card => {
+            observer.observe(card);
+        });
+
+        // Hover effect for cards
+        featureCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--x', `${x}px`);
+                card.style.setProperty('--y', `${y}px`);
+                
+                const tiltX = (x - rect.width/2) / 10;
+                const tiltY = (y - rect.height/2) / 10;
+                
+                card.style.transform = `translateY(-10px) rotateX(${tiltY}deg) rotateY(${tiltX}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-10px) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // Add parallax effect to icons
+        featureCards.forEach(card => {
+            const icon = card.querySelector('.feature-icon');
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width * 10 - 5;
+                const y = (e.clientY - rect.top) / rect.height * 10 - 5;
+                
+                icon.style.transform = `translate(${x}px, ${y}px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                icon.style.transform = 'translate(0, 0)';
+            });
+        });
+    </script>
+</body>
+</html>
